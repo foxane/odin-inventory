@@ -12,15 +12,11 @@ export async function getItem(itemId) {
       p.name AS name,
       p.image_url,
       p.create_date,
-      c.name AS category,
-      b.name AS brand,
-      b.website
+      c.name AS category
     FROM
       part AS p
     INNER JOIN
       category AS c ON c.id = p.category_id
-    INNER JOIN
-      brand AS b ON b.id = p.brand_id
     WHERE
       p.id = $1
     ;`,
@@ -37,15 +33,11 @@ export async function getAllItems() {
       p.name AS name,
       p.image_url,
       p.create_date,
-      c.name AS category,
-      b.name AS brand,
-      b.website
+      c.name AS category
     FROM
       part AS p
     INNER JOIN
       category AS c ON c.id = p.category_id
-    INNER JOIN
-      brand AS b ON b.id = p.brand_id
     ORDER BY
       id DESC
     ;`);
@@ -66,19 +58,6 @@ export async function getAllCats() {
   return data;
 }
 
-export async function getAllBrands() {
-  const data = await pool.query(
-    `
-    SELECT
-      *
-    FROM
-      brand
-    ;`,
-  );
-
-  return data;
-}
-
 export async function addCategory({ name }) {
   await pool.query(
     `
@@ -91,44 +70,16 @@ export async function addCategory({ name }) {
   );
 }
 
-export async function addItem({ name, brandId, categoryId, imageUrl }) {
+export async function addItem({ name, categoryId, imageUrl }) {
   await pool.query(
     `
     INSERT INTO
-      part (name, brand_id, category_id, image_url)
+      part (name, category_id, image_url)
     VALUES
-      ($1, $2, $3, $4)
+      ($1, $2, $3)
     ;`,
-    [name, brandId, categoryId, imageUrl],
+    [name, categoryId, imageUrl],
   );
-}
-
-export async function addBrand({ name, website }) {
-  await pool.query(
-    `
-    INSERT INTO
-      brand (name, website)
-    VALUES
-      ($1, $2)
-    ;`,
-    [name, website],
-  );
-}
-
-export async function getBrandCatCount() {
-  const data = await pool.query(`
-    SELECT 
-      (
-        SELECT COUNT(*)
-        FROM category
-      ) AS cat_count,
-      (
-        SELECT COUNT(*)
-        FROM brand
-      ) AS brand_count
-    ;`);
-
-  return data;
 }
 
 export async function deleteItem(itemId) {
@@ -154,18 +105,5 @@ export async function deleteCategory(categoryId) {
       id = $1
     ;`,
     [categoryId],
-  );
-}
-
-export async function deleteBrand(brandId) {
-  await pool.query(
-    `
-    DELETE
-    FROM
-      brand
-    WHERE
-      id = $1
-    ;`,
-    [brandId],
   );
 }

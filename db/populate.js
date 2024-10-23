@@ -6,11 +6,6 @@ const CREATE_TABLE = [
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name VARCHAR(20) NOT NULL);`,
 
-  `CREATE TABLE IF NOT EXISTS brand (
-  id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  name VARCHAR(50) NOT NULL,
-  website TEXT);`,
-
   `CREATE TABLE IF NOT EXISTS part (
   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   name TEXT NOT NULL,
@@ -25,12 +20,6 @@ const CREATE_TABLE = [
 
 const POPULATE_DB = [
   `INSERT INTO category (name) VALUES('cpu'), ('gpu'), ('motherboard'), ('keyboard');`,
-
-  `INSERT INTO brand (name, website) VALUES
-  ('Intel', 'https://intel.com/'),
-  ('AMD', 'https://amd.com/'), 
-  ('Asus', 'https://www.asus.com/'),
-  ('Logitech', 'https://www.logitech.com/');`,
 
   `INSERT INTO part (name, category_id, brand_id, image_url) VALUES
   ('AMD Ryzen 9 5900X 12-core, 24-Thread Unlocked Desktop Processor', 1, 2, '/images/item/ryzen_5900x.jpg'),

@@ -12,17 +12,6 @@ export const deleteItem = async (req, res, next) => {
   }
 };
 
-export const deleteBrand = async (req, res, next) => {
-  try {
-    const { brandId } = req.params;
-    await db.deleteBrand(Number(brandId));
-    res.status(204).redirect('/');
-  } catch (err) {
-    console.error(err);
-    next(new InternalServerError());
-  }
-};
-
 export const deleteCategory = async (req, res, next) => {
   try {
     const { categoryId } = req.params;

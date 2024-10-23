@@ -17,13 +17,6 @@
             <li><%= err.msg %></li>
           <% } %>
         </ul>
-      <% } %>
-
-      <% if (type === 'brand') { %>
-        <label for="brandName">Brand name: </label>
-        <input type="text" id="brandName" name="name" required/>
-        <label for="website">Brand website: </label>
-        <input type="url" id="brandWebsite" name="website" />
 
       <% } else if (type === 'category') { %>
         <label for="categoryName">Category name: </label>
@@ -41,17 +34,6 @@
             <% } %>
           <% } else { %>
             <option disabled>No categories available</option>
-          <% } %>
-        </select>
-
-        <label for="brand">Item brand: </label>
-        <select name="brandId" id="brand">
-          <% if (brands) { %>
-            <% for (let opt of brands) { %>
-              <option value="<%= opt.id %>"><%= opt.name %></option>
-            <% } %>
-          <% } else { %>
-            <option disabled>No brands available</option>
           <% } %>
         </select>
 

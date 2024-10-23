@@ -9,16 +9,6 @@ const bigLengthMsg = 'should have 5 - 100 characters';
 const missingProp = 'Please select or create new';
 const urlMsg = 'is not a valid URL';
 
-export const brandValidation = [
-  body('name').trim().notEmpty().withMessage(`Brand name ${emptyMsg}`),
-  body('website')
-    .trim()
-    .notEmpty()
-    .withMessage(`Brand website ${emptyMsg}`)
-    .isURL()
-    .withMessage(`Website ${urlMsg}`),
-];
-
 export const categoryValidation = [
   body('name')
     .trim()
@@ -32,8 +22,8 @@ export const categoryValidation = [
 
 export const itemValidation = async () => {
   try {
-    const { rows } = await db.getBrandCatCount();
-    const { cat_count, brand_count } = rows[0];
+    const { rows } = await db.getAllCats();
+    const { cat_count } = rows.length;
 
     return [
       body('name')
@@ -42,18 +32,6 @@ export const itemValidation = async () => {
         .withMessage(`Item name ${emptyMsg}`)
         .isLength({ min: 5, max: 100 })
         .withMessage(`Item name ${bigLengthMsg}`),
-
-      body('brandId')
-        .trim()
-        .notEmpty()
-        .withMessage(`${missingProp} brand`)
-        .custom(val => {
-          const id = Number(val);
-          if (isNaN(id) || id < 1 || id > brand_count) {
-            throw new Error('Invalid brand');
-          }
-          return true;
-        }),
 
       body('categoryId')
         .trim()
