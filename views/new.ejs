@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add new <%= type %></title>
+</head>
+<body>
+  <%- include('./partials/header') %>
+
+  <main>
+    <!-- Prevent partials from accessing property they don't need -->
+    <% if(typeof errors !== 'undefined') { %>
+      <% if (type === 'item') { %>
+        <%- include('./partials/form', {type, errors, categories , brands}) %>
+      <% } else { %>
+        <%- include('./partials/form', {type, errors}) %>      
+      <% } %>
+    <% } else { %>
+      <% if (type === 'item') { %>
+        <%- include('./partials/form', {type, categories , brands}) %>
+      <% } else { %>
+        <%- include('./partials/form', {type}) %>      
+      <% } %>
+    <% }%>
+  </main>
+
+  <%- include('./partials/footer') %>
+</body>
+</html>
