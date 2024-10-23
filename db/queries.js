@@ -1,16 +1,36 @@
 import pool from './pool.js';
 
-async function error() {
+export async function error() {
   await pool.query('lol');
 }
 
-/**
- * Get all item from database ordered from newest to oldest. NO LIMIT!
- *
- * @returns {Promise<object>} The result is default, so {rows} need to be destructured
- */
+export async function getItem(itemId) {
+  const data = await pool.query(
+    `
+      SELECT 
+      p.id AS id,
+      p.name AS name,
+      p.image_url,
+      p.create_date,
+      c.name AS category,
+      b.name AS brand,
+      b.website
+    FROM
+      part AS p
+    INNER JOIN
+      category AS c ON c.id = p.category_id
+    INNER JOIN
+      brand AS b ON b.id = p.brand_id
+    WHERE
+      p.id = $1
+    ;`,
+    [itemId],
+  );
 
-async function getAllItems() {
+  return data;
+}
+
+export async function getAllItems() {
   const data = await pool.query(`
     SELECT 
       p.id AS id,
@@ -18,7 +38,8 @@ async function getAllItems() {
       p.image_url,
       p.create_date,
       c.name AS category,
-      b.name AS brand
+      b.name AS brand,
+      b.website
     FROM
       part AS p
     INNER JOIN
@@ -32,13 +53,7 @@ async function getAllItems() {
   return data;
 }
 
-/**
- * Get all categories from database ordered from newest to oldest. NO LIMIT!
- *
- * @returns {Promise<object>} The result is default, so {rows} need to be destructured
- */
-
-async function getAllCats() {
+export async function getAllCats() {
   const data = await pool.query(
     `
     SELECT
@@ -51,7 +66,7 @@ async function getAllCats() {
   return data;
 }
 
-async function getAllBrands() {
+export async function getAllBrands() {
   const data = await pool.query(
     `
     SELECT
@@ -64,7 +79,7 @@ async function getAllBrands() {
   return data;
 }
 
-async function addCategory({ name }) {
+export async function addCategory({ name }) {
   await pool.query(
     `
     INSERT INTO
@@ -76,7 +91,7 @@ async function addCategory({ name }) {
   );
 }
 
-async function addItem({ name, brandId, categoryId, imageUrl }) {
+export async function addItem({ name, brandId, categoryId, imageUrl }) {
   await pool.query(
     `
     INSERT INTO
@@ -88,7 +103,7 @@ async function addItem({ name, brandId, categoryId, imageUrl }) {
   );
 }
 
-async function addBrand({ name, website }) {
+export async function addBrand({ name, website }) {
   await pool.query(
     `
     INSERT INTO
@@ -100,7 +115,7 @@ async function addBrand({ name, website }) {
   );
 }
 
-async function getBrandCatCount() {
+export async function getBrandCatCount() {
   const data = await pool.query(`
     SELECT 
       (
@@ -116,13 +131,41 @@ async function getBrandCatCount() {
   return data;
 }
 
-export {
-  getAllItems,
-  getAllCats,
-  getAllBrands,
-  addCategory,
-  addItem,
-  addBrand,
-  error,
-  getBrandCatCount,
-};
+export async function deleteItem(itemId) {
+  await pool.query(
+    `
+    DELETE
+    FROM
+      part
+    WHERE
+      id = $1
+    ;`,
+    [itemId],
+  );
+}
+
+export async function deleteCategory(categoryId) {
+  await pool.query(
+    `
+    DELETE
+    FROM
+      category
+    WHERE
+      id = $1
+    ;`,
+    [categoryId],
+  );
+}
+
+export async function deleteBrand(brandId) {
+  await pool.query(
+    `
+    DELETE
+    FROM
+      brand
+    WHERE
+      id = $1
+    ;`,
+    [brandId],
+  );
+}

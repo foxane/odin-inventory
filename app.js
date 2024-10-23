@@ -5,6 +5,7 @@ import path from 'node:path';
 // App modules
 import indexRouter from './routes/indexRouter.js';
 import addRouter from './routes/addRouter.js';
+import deleteRouter from './routes/deleteRouter.js';
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -16,11 +17,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', indexRouter);
 app.use('/new', addRouter);
+app.use('/delete', deleteRouter);
 
 app.use((err, req, res, next) => {
-  console.log('On app level error');
   console.log(err);
-  res.status(err.statusCode).render('error', { error: err.message });
+  res.render('error', { error: err.message });
 });
 
 app.listen(PORT, () => {

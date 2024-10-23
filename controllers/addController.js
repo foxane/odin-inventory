@@ -53,19 +53,23 @@ export const addBrandPost = async (req, res, next) => {
 };
 
 export const addItemPost = async (req, res, next) => {
-  console.log('Passed to controller');
   const result = validationResult(req);
-  if (result.isEmpty()) {
-    return res.render('new', { type: 'item', errors: result.errors });
+  if (!result.isEmpty()) {
+    const { rows: brands } = await db.getAllBrands();
+    const { rows: categories } = await db.getAllCats();
+    return res.render('new', {
+      type: 'item',
+      errors: result.errors,
+      categories,
+      brands,
+    });
   }
 
   const { name, brandId, categoryId, imageUrl } = req.body;
-  console.log(req.body);
 
   try {
-    console.log('catched');
     await db.addItem({ name, brandId, categoryId, imageUrl });
-    res.status(200).redirect('/');
+    res.status(201).redirect('/');
   } catch (err) {
     console.error(err);
     next(new InternalServerError());

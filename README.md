@@ -7,4 +7,4 @@ Inventory app using express and postgres
 - CREATE - Done
 - READ - Done
 - UPDATE - WIP
-- DELETE - WIP
+- DELETE - WIP currently working on delete item

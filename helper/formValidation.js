@@ -68,8 +68,8 @@ export const itemValidation = async () => {
         }),
 
       body('imageUrl')
+        .optional({ values: 'falsy' })
         .trim()
-        .optional()
         .isURL()
         .withMessage(`Image url ${urlMsg}`),
     ];
