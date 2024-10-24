@@ -1,0 +1,1 @@
+{ "watch": ["controllers", "db", "helper", "public", "routes", "views"] }
