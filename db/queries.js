@@ -12,7 +12,8 @@ export async function getItem(itemId) {
       p.name AS name,
       p.image_url,
       p.create_date,
-      c.name AS category
+      c.name AS category,
+      p.category_id
     FROM
       part AS p
     INNER JOIN
@@ -21,6 +22,19 @@ export async function getItem(itemId) {
       p.id = $1
     ;`,
     [itemId],
+  );
+
+  return data;
+}
+
+export async function getCategory(categoryId) {
+  const data = await pool.query(
+    `
+    SELECT *
+    FROM category
+    WHERE id = $1
+    `,
+    [categoryId],
   );
 
   return data;
@@ -105,5 +119,27 @@ export async function deleteCategory(categoryId) {
       id = $1
     ;`,
     [categoryId],
+  );
+}
+
+export async function editItem({ id, name, categoryId, imageUrl }) {
+  await pool.query(
+    `
+    UPDATE part
+    SET name = $1, category_id = $2, image_url = $3
+    WHERE id = $4
+    ;`,
+    [name, categoryId, imageUrl, id],
+  );
+}
+
+export async function editCategory({ id, name }) {
+  await pool.query(
+    `
+    UPDATE category
+    SET name = $1
+    WHERE id = $2
+    ;`,
+    [name, id],
   );
 }

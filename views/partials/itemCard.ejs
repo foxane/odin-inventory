@@ -1,7 +1,7 @@
 <div>
   <img src="<%= item.image_url %>" alt="<%= item.name %>">
   <div>
-    <p><%= item.name %></p>
-    <a href="/edit-item/<%= item.id %>">Edit</a>
+    <p><a href="/item/<%= item.id %>"><%= item.name %></p>
+    <a href="/edit/item/<%= item.id %>">Edit</a>
   </div>
 </div>

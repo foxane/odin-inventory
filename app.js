@@ -6,6 +6,7 @@ import path from 'node:path';
 import indexRouter from './routes/indexRouter.js';
 import addRouter from './routes/addRouter.js';
 import deleteRouter from './routes/deleteRouter.js';
+import editRouter from './routes/editRouter.js';
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', indexRouter);
 app.use('/new', addRouter);
 app.use('/delete', deleteRouter);
+app.use('/edit', editRouter);
 
 app.use((err, req, res, next) => {
   console.log(err);
