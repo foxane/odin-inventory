@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/metadata') %>
+  <script defer src="/scripts/deleteModal.js"></script>
+  <title>All items</title>
+</head>
+<body>
+  
+  <%- include('partials/deleteModal') %>
+  <%- include('partials/header') %>
+
+  <h1 class="text-center mb-3">All items</h1>
+  <div class="container">
+    <div class="row justify-content-evenly">
+
+      <% for (const item of items) { %>
+        <div class="card mb-3" style="width: 18rem;">
+          <img class="card-img-top" src="<%= item.image_url%>" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"><%= item.name %></h5>
+            <p class="card-text">TODO:Add description column on part table -WIP This is long description on the product, Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero, sit. </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Category : <%= capitalize(item.category) %> </li>
+            <li class="list-group-item">Added on : <%= item.create_date %></li>
+            <li class="list-group-item">Last edited : TODO: Add update_date column on part table</li>
+          </ul>
+          <div class="card-body d-flex justify-content-evenly align-items-end">
+            <a href="/edit/item/<%=item.id%>" class="btn btn-primary">Edit item</a>
+
+            <!-- Button below need necessary data-attributes! -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-url="/delete/item/<%= item.id %>" data-name="<%=item.name%>">
+            Delete
+            </button>
+          </div>
+        </div>
+      <% } %>
+
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

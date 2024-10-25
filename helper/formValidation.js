@@ -46,7 +46,8 @@ export const itemValidation = async () => {
         }),
 
       body('imageUrl')
-        .optional({ values: 'falsy' })
+        .notEmpty() // FIXME: delete this chain when image upload is ready
+        .withMessage('I said image is disabled!!! FUCK OFF')
         .trim()
         .isURL()
         .withMessage(`Image url ${urlMsg}`),

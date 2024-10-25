@@ -1,54 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('partials/metadata') %>
   <title>Add new <%= type %></title>
 </head>
 <body>
-  <%- include('./partials/header') %>
+  <%- include('partials/header') %>
 
-  <main>
+  <main class="container mt-5">
+    <h2 class="text-center mb-4">Add New <%= capitalize(type) %></h2>
     <form action="/new/<%= type %>" method="post">
 
       <% if (typeof errors !== 'undefined') { %>
-        <ul>
-          <% for (let err of errors) { %>
-            <li><%= err.msg %></li>
-          <% } %>
-        </ul>
-
-      <% } else if (type === 'category') { %>
-        <label for="categoryName">Category name: </label>
-        <input type="text" id="categoryName" name="name" required/>
-
-      <% } else if (type === 'item') { %>
-        <label for="itemName">Item name: </label>
-        <input type="text" id="itemName" name="name" required/>
-
-        <label for="category">Item category: </label>
-        <select name="categoryId" id="category">
-          <% if (categories) { %>
-            <% for (let opt of categories) { %>
-              <option value="<%= opt.id %>"><%= opt.name %></option>
+        <div class="alert alert-danger">
+          <ul>
+            <% for (let err of errors) { %>
+              <li><%= err.msg %></li>
             <% } %>
-          <% } else { %>
-            <option disabled>No categories available</option>
-          <% } %>
-        </select>
-
-        <label for="imageUrl">Image Url: </label>
-        <input type="url" name="imageUrl" id="imageUrl">
-
-      <% } else { %>
-        <h3>Show error when requested form does not exist - TODO:</h3>
+          </ul>
+        </div>
       <% } %>
 
-      <button type="submit">Submit</button>
+      <% if (type === 'category') { %>
+        <div class="mb-3">
+          <label for="categoryName" class="form-label">Category Name</label>
+          <input type="text" id="categoryName" name="name" class="form-control" required />
+        </div>
+      <% } else if (type === 'item') { %>
+        <div class="mb-3">
+          <label for="itemName" class="form-label">Item Name</label>
+          <input type="text" id="itemName" name="name" class="form-control" required />
+        </div>
+
+        <div class="mb-3">
+          <label for="category" class="form-label">Item Category</label>
+          <select name="categoryId" id="category" class="form-control form-select">
+            <% if (categories) { %>
+              <% for (let opt of categories) { %>
+                <option value="<%= opt.id %>"><%= capitalize(opt.name) %></option>
+              <% } %>
+            <% } else { %>
+              <option disabled>No categories available</option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="imageUrl" class="form-label">Image URL</label>
+          <input type="url" name="imageUrl" id="imageUrl" class="form-control" placeholder="Image selection is currently disabled for security and my lazy ass reason" disabled>
+        </div>
+      <% } else { %>
+        <div class="alert alert-warning">Show error when requested form does not exist - TODO:</div>
+      <% } %>
+
+      <button type="submit" class="btn btn-primary mx-auto d-block">Submit</button>
     </form>
-    
   </main>
 
-  <%- include('./partials/footer') %>
+  <%- include('partials/footer') %>
 </body>
 </html>

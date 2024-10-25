@@ -1,41 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%- include('partials/metadata') %>
   <title>Edit <%= type %></title>
 </head>
 <body>
-  <%- include('./partials/header') %>
+  <%- include('partials/header') %>
 
-  <ul>
-    <% if (typeof errors !== 'undefined') {
-      for (let err of errors) { %>
-        <li><%= err.msg%></li>
-      <% }
-    } %>
-  </ul>
-  <form action="/edit/<%=type%>/<%=item.id%>" method="post">
-    <% if(type === 'category') { %>
-      <label for="name">Category name</label>
-      <input type="text" name="name" id="name" value="<%= item.name%>">
+  <main class="container mt-5">
+    <h2 class="text-center mb-4">Edit <%= capitalize(type) %></h2>
+    <form action="/edit/<%= type %>/<%= item.id %>" method="post">
 
-    <% } else if(type === 'item') { %>
-      <label for="name">Item name</label>
-      <input type="text" name="name" id="name" value="<%=item.name%>" required>
-      <label for="category">Category</label>
-      <select name="categoryId" id="category">
-        <% for (let cat of categories ) { %>
-          <option value="<%=cat.id%>" <%- item.category_id === cat.id && 'selected' %>><%=cat.name%></option>
-        <% }%>
-      </select>
-      <label for="imageUrl">Image url</label>
-      <input type="text" name="imageUrl" id="imageUrl" value="<%=item.image_url%>">
+    <% if (typeof errors !== 'undefined') { %>
+      <div class="alert alert-danger">
+        <ul>
+          <% for (let err of errors) { %>
+            <li><%= err.msg %></li>
+          <% } %>
+        </ul>
+      </div>
     <% } %>
 
-    <button type="submit">Submit</button>
-  </form>
+      <% if (type === 'category') { %>
+        <div class="form-group">
+          <label for="name">Category Name</label>
+          <input type="text" name="name" id="name" value="<%= item.name %>" class="form-control" required />
+        </div>
+      <% } else if (type === 'item') { %>
+        <div class="form-group">
+          <label for="name">Item Name</label>
+          <input type="text" name="name" id="name" value="<%= item.name %>" class="form-control" required />
+        </div>
 
-  <%- include('./partials/footer') %>
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select name="categoryId" id="category" class="form-control">
+            <% for (let cat of categories) { %>
+              <option value="<%= cat.id %>" <%= item.category_id === cat.id ? 'selected' : '' %>><%= cat.name %></option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="imageUrl">Image URL</label>
+          <input type="text" name="imageUrl" id="imageUrl" value="<%= item.image_url %>" class="form-control" />
+        </div>
+      <% } %>
+
+      <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    </form>
+  </main>
+
+  <%- include('partials/footer') %>
 </body>
 </html>
