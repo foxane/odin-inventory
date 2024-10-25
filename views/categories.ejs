@@ -10,8 +10,10 @@
   <%- include('partials/header') %>
 
   <div class="container">
-    <h1 class="text-center mb-3">All categories</h1>
-    <div class="row justify-content-evenly">
+    <div class="mb-3 gap-5 d-flex justify-content-center align-items-center">
+      <h1>All categories</h1>
+      <a href="/new/category" class="btn btn-success">Add new</a>
+    </div>
 
       <% for (const cat of categories) { %>
         <div class="card mb-3">
