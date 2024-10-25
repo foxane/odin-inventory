@@ -12,11 +12,11 @@ export async function getItem(itemId) {
       p.name AS name,
       p.image_url,
       p.create_date,
-      c.name AS category,
-      p.category_id
+      p.category_id,
+      COALESCE(c.name, 'Category is unset') AS category
     FROM
       part AS p
-    INNER JOIN
+    LEFT JOIN
       category AS c ON c.id = p.category_id
     WHERE
       p.id = $1
@@ -47,14 +47,14 @@ export async function getAllItems() {
       p.name AS name,
       p.image_url,
       p.create_date,
-      c.name AS category
+      COALESCE(c.name, 'Category is unset') AS category
     FROM
       part AS p
-    INNER JOIN
+    LEFT JOIN
       category AS c ON c.id = p.category_id
     ORDER BY
-      id DESC
-    ;`);
+      p.id DESC;
+  `);
 
   return data;
 }
@@ -84,15 +84,15 @@ export async function addCategory({ name }) {
   );
 }
 
-export async function addItem({ name, categoryId, imageUrl }) {
+export async function addItem({ name, categoryId }) {
   await pool.query(
     `
     INSERT INTO
-      part (name, category_id, image_url)
+      part (name, category_id)
     VALUES
-      ($1, $2, $3)
+      ($1, $2)
     ;`,
-    [name, categoryId, imageUrl],
+    [name, categoryId],
   );
 }
 
@@ -122,14 +122,14 @@ export async function deleteCategory(categoryId) {
   );
 }
 
-export async function editItem({ id, name, categoryId, imageUrl }) {
+export async function editItem({ id, name, categoryId }) {
   await pool.query(
     `
     UPDATE part
-    SET name = $1, category_id = $2, image_url = $3
-    WHERE id = $4
+    SET name = $1, category_id = $2
+    WHERE id = $3
     ;`,
-    [name, categoryId, imageUrl, id],
+    [name, categoryId, id],
   );
 }
 

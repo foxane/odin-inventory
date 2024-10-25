@@ -16,10 +16,10 @@ app.set('views', path.join(process.cwd(), 'views'));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', indexRouter);
 app.use('/new', addRouter);
 app.use('/delete', deleteRouter);
 app.use('/edit', editRouter);
+app.use('/', indexRouter);
 
 app.use((err, req, res, next) => {
   console.log(err);

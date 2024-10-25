@@ -8,11 +8,20 @@ export const dashboard = async (req, res) => {
   res.render('index', { items: item.rows, cats: cat.rows, capitalize });
 };
 
-export const itemDetails = async (req, res, next) => {
+export const allItems = async (req, res, next) => {
   try {
-    const { rows } = await db.getItem(Number(req.params.itemId));
-    if (rows.length < 1) throw new NotFoundError();
-    res.render('details', { item: rows[0] });
+    const { rows } = await db.getAllItems();
+    res.render('items', { items: rows, capitalize });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+export const allCategories = async (req, res, next) => {
+  try {
+    const { rows } = await db.getAllCats();
+    res.render('categories', { categories: rows, capitalize });
   } catch (error) {
     console.error(error);
     next(error);

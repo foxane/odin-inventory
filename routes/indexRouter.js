@@ -1,9 +1,15 @@
 import { Router } from 'express';
-import { dashboard, itemDetails } from '../controllers/indexController.js';
+import {
+  allCategories,
+  allItems,
+  dashboard,
+} from '../controllers/indexController.js';
 
 const indexRouter = Router();
 
+indexRouter.get('/item', allItems);
+indexRouter.get('/category', allCategories);
+
 indexRouter.get('/', dashboard);
-indexRouter.get('/item/:itemId', itemDetails);
 
 export default indexRouter;

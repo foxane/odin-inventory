@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <%- include('partials/metadata') %>
-  <title>Edit <%= type %></title>
+  <title><%= isEdit ? 'Edit' : 'Add New' %> <%= capitalize(type) %></title>
 </head>
 <body>
   <%- include('partials/header') %>
 
   <main class="container-sm mt-5" style="max-width: 40rem;">
-    <h2 class="text-center mb-4">Edit <%= capitalize(type) %></h2>
-    <form action="/edit/<%= type %>/<%= item.id %>" method="post">
+    <h2 class="text-center mb-4"><%= isEdit ? 'Edit' : 'Add New' %> <%= capitalize(type) %></h2>
+    <form action="<%= isEdit ? '/edit/' + type + '/' + item.id : '/new/' + type %>" method="post">
 
       <% if (typeof errors !== 'undefined') { %>
         <div class="alert alert-danger">
@@ -23,20 +23,20 @@
 
       <% if (type === 'category') { %>
         <div class="mb-3">
-          <label for="categoryName" class="form-label">Category Name</label>
-          <input type="text" id="categoryName" name="name" value="<%= item.name %>" class="form-control" required />
+          <label for="name" class="form-label">Category Name</label>
+          <input type="text" id="name" name="name" value="<%= isEdit ? item.name : '' %>" class="form-control" required />
         </div>
       <% } else if (type === 'item') { %>
         <div class="mb-3">
-          <label for="itemName" class="form-label">Item Name</label>
-          <input type="text" id="itemName" name="name" value="<%= item.name %>" class="form-control" required />
+          <label for="name" class="form-label">Item Name</label>
+          <input type="text" id="name" name="name" value="<%= isEdit ? item.name : '' %>" class="form-control" required />
         </div>
 
         <div class="mb-3">
           <label for="category" class="form-label">Item Category</label>
           <select name="categoryId" id="category" class="form-control form-select">
             <% for (let cat of categories) { %>
-              <option value="<%= cat.id %>"><%= capitalize(cat.name) %></option>
+              <option value="<%= cat.id %>" <%= isEdit && item.category_id === cat.id ? 'selected' : '' %>><%= cat.name %></option>
             <% } %>
           </select>
         </div>
