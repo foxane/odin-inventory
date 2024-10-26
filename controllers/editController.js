@@ -7,7 +7,6 @@ export const editItemGet = async (req, res, next) => {
   try {
     const { rows: categories } = await db.getAllCats();
     const { rows } = await db.getItem(Number(req.params.itemId));
-    console.log(rows);
     res.render('form', {
       type: 'item',
       isEdit: true,
