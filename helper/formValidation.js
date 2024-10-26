@@ -21,36 +21,31 @@ export const categoryValidation = [
 ];
 
 export const itemValidation = async () => {
-  try {
-    const { rows } = await db.getAllCats();
-    const { cat_count } = rows.length;
+  const { rows } = await db.getAllCats();
+  const { cat_count } = rows.length;
 
-    return [
-      body('name')
-        .trim()
-        .notEmpty()
-        .withMessage(`Item name ${emptyMsg}`)
-        .isLength({ min: 5, max: 100 })
-        .withMessage(`Item name ${bigLengthMsg}`),
+  return [
+    body('name')
+      .trim()
+      .notEmpty()
+      .withMessage(`Item name ${emptyMsg}`)
+      .isLength({ min: 5, max: 100 })
+      .withMessage(`Item name ${bigLengthMsg}`),
 
-      body('categoryId')
-        .trim()
-        .notEmpty()
-        .withMessage(`${missingProp} category`)
-        .custom(val => {
-          const id = Number(val);
-          if (isNaN(id) || id < 1 || id > cat_count) {
-            throw new Error('Invalid category');
-          }
-          return true;
-        }),
+    body('categoryId')
+      .trim()
+      .notEmpty()
+      .withMessage(`${missingProp} category`)
+      .custom(val => {
+        const id = Number(val);
+        if (isNaN(id) || id < 1 || id > cat_count) {
+          throw new Error('Invalid category');
+        }
+        return true;
+      }),
 
-      body('imageUrl')
-        .isEmpty() // FIXME: delete this chain when image upload is ready
-        .withMessage('I said image is disabled!!! FUCK OFF'),
-    ];
-  } catch (error) {
-    console.error(error);
-    next(new InternalServerError());
-  }
+    body('imageUrl')
+      .isEmpty() // FIXME: delete this chain when image upload is ready
+      .withMessage('I said image is disabled!!! FUCK OFF'),
+  ];
 };
