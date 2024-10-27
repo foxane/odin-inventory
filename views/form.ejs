@@ -4,10 +4,10 @@
   <%- include('partials/metadata') %>
   <title><%= isEdit ? 'Edit' : 'Add New' %> <%= capitalize(type) %></title>
 </head>
-<body>
+<body class="container-fluid d-flex flex-column">
   <%- include('partials/header') %>
 
-  <main class="container-sm mt-5" style="max-width: 40rem;">
+  <main class="container-sm mt-5 p-3 border border-2 rounded" style="max-width: 40rem;">
     <h2 class="text-center mb-4"><%= isEdit ? 'Edit' : 'Add New' %> <%= capitalize(type) %></h2>
     <form action="<%= isEdit ? '/edit/' + type + '/' + item.id : '/new/' + type %>" method="post">
 
@@ -52,6 +52,8 @@
     </form>
   </main>
 
-  <%- include('partials/footer') %>
+  <div class="mt-auto">
+    <%- include('partials/footer') %>
+  </div>
 </body>
 </html>

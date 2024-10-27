@@ -1,5 +1,4 @@
 import { body } from 'express-validator';
-import { InternalServerError } from './errors.js';
 import * as db from '../db/queries.js';
 
 const emptyMsg = 'cannot be empty';
@@ -7,7 +6,6 @@ const alphaMsg = 'should only contain alphabet';
 const lengthMsg = 'should have 2 - 20 characters';
 const bigLengthMsg = 'should have 5 - 100 characters';
 const missingProp = 'Please select or create new';
-const urlMsg = 'is not a valid URL';
 
 export const categoryValidation = [
   body('name')

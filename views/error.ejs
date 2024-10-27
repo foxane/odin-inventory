@@ -2,14 +2,16 @@
 <html lang="en">
   <head>
     <%- include('partials/metadata') %>
-    <title>Gamer hut</title>
+    <title>Something went wrong</title>
   </head>
   <body  class="container-fluid d-flex flex-column justify-content-between">
 
     <%- include('partials/header') %>
 
-    <main>
-      <h1>Error: <%=error%> </h1>
+    <main class="container text-center mt-5">
+      <h2 class="mb-4">Something went wrong</h2>
+      <h1 class="alert alert-danger p-5">Error: <%=error%> </h1>
+      <p class="italic">Report this problem to <a href="http://github.com/foxane/odin-inventory/issues" target="_blank" rel="noopener noreferrer">GitHub</a></p>
     </main>
 
     <%- include('partials/footer') %>

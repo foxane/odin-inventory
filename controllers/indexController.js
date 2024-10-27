@@ -1,5 +1,4 @@
 import * as db from '../db/queries.js';
-import { NotFoundError } from '../helper/errors.js';
 import { capitalize } from '../helper/utils.js';
 
 export const dashboard = async (req, res) => {

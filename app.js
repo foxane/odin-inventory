@@ -1,4 +1,4 @@
-import 'dotenv/config.js'; // <== THIS MOTHERFUCKER WASTED 2 HOURS, FUCK YOU
+import 'dotenv/config.js';
 import express from 'express';
 import path from 'node:path';
 
@@ -7,6 +7,7 @@ import indexRouter from './routes/indexRouter.js';
 import addRouter from './routes/addRouter.js';
 import deleteRouter from './routes/deleteRouter.js';
 import editRouter from './routes/editRouter.js';
+import { NotFoundError } from './helper/errors.js';
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -20,6 +21,7 @@ app.use('/new', addRouter);
 app.use('/delete', deleteRouter);
 app.use('/edit', editRouter);
 app.use('/', indexRouter);
+app.get('*', (req, res, next) => next(new NotFoundError()));
 
 app.use((err, req, res, next) => {
   console.log(err);
